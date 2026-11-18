@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildNest AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="main-content">
+
+    <h1>🤖 BuildNest AI Assistant</h1>
+    <p>Ask me anything about house construction and budgeting.</p>
+
+    <div class="calculator" style="margin-top:25px;">
+
+        <div id="chatMessages">
+            <p><b>BuildNest AI:</b> Hello! How can I help you build your dream home?</p>
+        </div>
+
+        <form id="chatForm" style="margin-top:20px;">
+
+            <input
+                type="text"
+                id="userMessage"
+                placeholder="Ask your construction question..."
+                required
+            >
+
+            <button type="submit">Send Message</button>
+
+        </form>
+
+        <p id="chatError" class="error-message"></p>
+
+    </div>
+
+    <br>
+    <a href="/dashboard">← Back to Dashboard</a>
+
+</div>
+
+<script>
+document.getElementById("chatForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const input = document.getElementById("userMessage");
+    const messages = document.getElementById("chatMessages");
+    const error = document.getElementById("chatError");
+
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    const userText = document.createElement("p");
+    userText.textContent = "You: " + message;
+    messages.appendChild(userText);
+
+    input.value = "";
+    error.textContent = "";
+
+    try {
+        const response = await fetch("/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Unable to get a reply");
+        }
+
+        const aiText = document.createElement("p");
+        aiText.textContent = "BuildNest AI: " + data.reply;
+        messages.appendChild(aiText);
+
+    } catch (err) {
+        error.textContent = err.message;
+    }
+});
+</script>
+
+</body>
+</html>

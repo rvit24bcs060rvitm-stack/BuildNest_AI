@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildNest AI Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+        <h2>BuildNest <span>AI</span></h2>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/dashboard" class="active">Dashboard</a>
+            <a href="/chatbot">AI Assistant</a>
+        </nav>
+
+        <p class="sidebar-bottom">Smart Construction Planning</p>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1>Construction Dashboard</h1>
+                <p>Plan your dream home with intelligent cost estimation.</p>
+            </div>
+            <span class="user-icon">🏠</span>
+        </header>
+
+        <section class="welcome-card">
+            <h2>Welcome to BuildNest AI!</h2>
+            <p>Calculate your house construction budget in seconds.</p>
+        </section>
+
+        <section class="calculator">
+
+            <h2>House Cost Calculator</h2>
+
+            <form id="costForm">
+
+                <label>Built-up area (sq. ft.)</label>
+                <input type="number" id="area" placeholder="Example: 1200" min="1" required>
+
+                <label>Number of floors</label>
+                <input type="number" id="floors" value="1" min="1" required>
+
+                <label>Number of bedrooms</label>
+                <input type="number" id="bedrooms" value="2" min="1" required>
+
+                <label>Construction quality</label>
+                <select id="quality">
+                    <option value="Basic">Basic</option>
+                    <option value="Standard" selected>Standard</option>
+                    <option value="Premium">Premium</option>
+                </select>
+
+                <button type="submit">Calculate Construction Cost</button>
+
+            </form>
+
+        </section>
+
+        <section id="results" class="results" hidden>
+
+            <div class="result-card">
+                <h3>Estimated Total Cost</h3>
+                <h1 id="totalCost">₹0</h1>
+                <p>Approximate construction estimate</p>
+            </div>
+
+            <div class="result-card">
+                <h3>Total Built-up Area</h3>
+                <h1 id="totalArea">0 sq. ft.</h1>
+            </div>
+
+            <div class="result-card">
+                <h3>Material Cost Breakdown</h3>
+                <canvas id="costChart"></canvas>
+            </div>
+
+            <div class="result-card">
+                <h3>Material Details</h3>
+                <div id="materialDetails"></div>
+            </div>
+
+        </section>
+
+        <p id="errorMessage" class="error-message"></p>
+
+        <a href="/chatbot" class="chat-link">🤖 Ask BuildNest AI</a>
+
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
